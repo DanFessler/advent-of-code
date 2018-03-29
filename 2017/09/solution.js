@@ -1,14 +1,39 @@
 input = document.body.textContent.trim();
 
-// Part 1
-function Part1 (input) {
-
+// Part 1 and 2
+function Solve(input) {
+  var score = 0
+  var nest = 0
+  var garbage = false
+  var garbageCharacters = 0
+  for (var i=0; i<input.length; i++) {
+    if (input[i] == "!") {
+      i++
+      continue
+    }
+    if (!garbage) {
+      if (input[i] == "{") {
+        nest++
+        score += nest
+      }
+      if (input[i] == "}") {
+        nest--
+      }
+      if (input[i] == "<") {
+        garbage = true
+      }
+    }
+    else {
+      if (input[i] == ">") {
+        garbage = false
+        continue
+      }
+      garbageCharacters++
+    }
+  }
+  return {score: score, garbage: garbageCharacters}
 }
 
-// Part 2
-function Part2 (input) {
-
-}
-
-console.log("DAY 09-1: "+Part1(input));
-console.log("DAY 09-2: "+Part2(input));
+var Answer = Solve(input);
+console.log("DAY 09-1: "+Answer.score);
+console.log("DAY 09-2: "+Answer.garbage);
