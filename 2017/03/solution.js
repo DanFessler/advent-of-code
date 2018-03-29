@@ -1,6 +1,3 @@
-// Day 3
-
-// Parse Input
 input = document.body.textContent.trim();
 
 // Part 1
@@ -39,7 +36,6 @@ function Part1 (input) {
 // Part 2
 function Part2 (input) {
 
-  // Built data map
   var mapsize = 529;
   var datamap = [];
   for (var y=0; y<mapsize; y++) {
@@ -48,10 +44,8 @@ function Part2 (input) {
       datamap[y][x] = 0;
     }
   }
-  // fill in first cell
   datamap[Math.floor(mapsize/2)][Math.floor(mapsize/2)] = 1;
 
-  // Rotate direction
   function rotate(directionVector) {
     var x = Math.round(directionVector[0]*Math.cos(Math.PI/2) - directionVector[1]*Math.sin(Math.PI/2));
     var y = Math.round(directionVector[1]*Math.cos(Math.PI/2) + directionVector[0]*Math.sin(Math.PI/2));
@@ -99,6 +93,5 @@ function Part2 (input) {
   }
 }
 
-// Log solutions to the console
-console.log(Part1(input));
-console.log(Part2(input));
+console.log("DAY 03-1: "+Part1(input));
+console.log("DAY 03-2: "+Part2(input));

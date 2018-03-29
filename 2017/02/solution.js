@@ -1,5 +1,3 @@
-// Day 2
-
 // Parse Input into 2D array of numbers
 input = document.body.textContent.trim().split(/\n/).map((i)=>i.split(/\s+/).map((i)=>parseInt(i)));
 
@@ -49,6 +47,5 @@ function Part2 (input) {
   return AddRows(input);
 }
 
-// Log solutions to the console
-console.log(Part1(input));
-console.log(Part2(input));
+console.log("DAY 02-1: "+Part1(input));
+console.log("DAY 02-2: "+Part2(input));

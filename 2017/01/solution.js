@@ -1,6 +1,3 @@
-// Day 1
-
-// Parse Input
 input = document.body.textContent.trim();
 
 // Part 1
@@ -29,6 +26,5 @@ function Part2 (input) {
   return matchingDigits.reduce((acc, currentVal) => parseInt(acc, 10) + parseInt(currentVal, 10));
 }
 
-// Log solutions to the console
-console.log(Part1(input));
-console.log(Part2(input));
+console.log("DAY 01-1: "+Part1(input));
+console.log("DAY 01-2: "+Part2(input));

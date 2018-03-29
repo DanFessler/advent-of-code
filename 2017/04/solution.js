@@ -1,5 +1,3 @@
-// Day 4
-
 // Parse Input into array of passphrases
 input = document.body.textContent.trim().split(/\n/);
 
@@ -48,5 +46,5 @@ function Part2 (input) {
 }
 
 // Log solutions to the console
-console.log(Part1(input));
-console.log(Part2(input));
+console.log("DAY 04-1: "+Part1(input));
+console.log("DAY 04-2: "+Part2(input));

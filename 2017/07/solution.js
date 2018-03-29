@@ -1,5 +1,3 @@
-// Day 7
-
 input = document.body.textContent.trim();
 
 function ParseInput(input) {
@@ -81,6 +79,5 @@ function Part2 (input) {
   return FindImbalance(root, 0).correctedWeight;
 }
 
-// Log solutions to the console
-console.log(Part1(input));
-console.log(Part2(input));
+console.log("DAY 07-1: "+Part1(input));
+console.log("DAY 07-2: "+Part2(input));

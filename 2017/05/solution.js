@@ -1,5 +1,3 @@
-// Day 5
-
 // Parse Input into array of numbers
 input = document.body.textContent.trim().split(/\n/).map((e)=>parseInt(e));
 
@@ -29,6 +27,5 @@ function Part2 (input) {
   return steps;
 }
 
-// Log solutions to the console
-console.log(Part1(input.slice()));
-console.log(Part2(input.slice()));
+console.log("DAY 05-1: "+Part1(input.slice()));
+console.log("DAY 05-2: "+Part2(input.slice()));

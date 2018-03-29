@@ -1,5 +1,3 @@
-// Day 6
-
 // Parse Input into array of numbers
 input = document.body.textContent.trim().split(/\s+/).map((e)=>parseInt(e));
 
@@ -50,6 +48,5 @@ function Part2 (input) {
   return Part1(input, true);
 }
 
-// Log solutions to the console
-console.log(Part1(input));
-console.log(Part2(input));
+console.log("DAY 06-1: "+Part1(input));
+console.log("DAY 06-2: "+Part2(input));
