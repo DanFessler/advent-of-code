@@ -1,0 +1,19 @@
+{
+  "name": "advent-of-code",
+  "version": "1.0.0",
+  "description": "Advent of Code: http://www.adventofcode.com",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/DanFessler/advent-of-code.git"
+  },
+  "author": "Dan Fessler",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/DanFessler/advent-of-code/issues"
+  },
+  "homepage": "https://github.com/DanFessler/advent-of-code#readme"
+}
