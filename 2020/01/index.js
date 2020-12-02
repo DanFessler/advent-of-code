@@ -1,13 +1,12 @@
 // Get input either from browser or file
 var BROWSER = typeof window !== "undefined";
 var input = !BROWSER
-  ? require("../../input.js")(__dirname)
+  ? require("../../input.js")(__dirname).trim()
   : document.body.textContent.trim();
 
 // parse the input
 input = input.split("\n").map(item => parseInt(item, 10));
 
-// Part 1
 // Find two numbers that add to 2020 and multiply them together
 function Part1() {
   for (A = 0; A < input.length; A++) {
@@ -19,7 +18,6 @@ function Part1() {
   }
 }
 
-// Part 2
 // find three numbers that add to 2020 and multiply them together
 function Part2() {
   for (A = 0; A < input.length; A++) {
