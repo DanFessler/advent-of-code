@@ -1,15 +1,22 @@
 const fs = require("fs");
 const path = require("path");
 
-var puzzles = ["./01", "./02"].map(file => {
+let args = process.argv.slice(2);
+let day = args[0] ? parseInt(args[0], 10) : undefined;
+let inputPath = args[1] || "input.txt";
+
+var puzzles = ["./01", "./02"].map((file, i) => {
   return {
-    input: fs.readFileSync(path.resolve(file, "input.txt"), "utf8").trim(),
+    input: fs
+      .readFileSync(
+        // if we're specifying a specific input file, use that instead for that day
+        path.resolve(file, day === i + 1 ? inputPath : "input.txt"),
+        "utf8"
+      )
+      .trim(),
     ...require(file)
   };
 });
-
-let args = process.argv.slice(2);
-let day = args[0] ? parseInt(args[0], 10) : undefined;
 
 if (day) solve(day);
 else puzzles.forEach((puzzle, i) => solve(i + 1));
