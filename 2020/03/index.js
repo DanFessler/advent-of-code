@@ -47,3 +47,5 @@ if (typeof window !== "undefined") {
 } else {
   module.exports = { Parse, Part1, Part2 };
 }
+
+// test
