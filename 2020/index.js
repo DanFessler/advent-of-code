@@ -24,10 +24,11 @@ else puzzles.forEach((puzzle, i) => solve(i + 1));
 
 function solve(day) {
   let puzzle = puzzles[day - 1];
+  let input = puzzle.Parse(puzzle.input);
   console.log(
     `day_${day}_1:`,
-    puzzle.Part1(puzzle.Parse(puzzle.input)),
+    puzzle.Part1(input),
     `\nday_${day}_2:`,
-    puzzle.Part2(puzzle.Parse(puzzle.input))
+    puzzle.Part2(input)
   );
 }
