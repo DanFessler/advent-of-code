@@ -7,25 +7,21 @@ function Parse(input) {
 
 // count trees starting at 0,0 with a slope of 3:1
 function Part1(input) {
-  let count = 0;
-  let x = 0;
-  for (let y = 0; y < input.length; y++) {
-    if (input[y][x]) count++;
-    x = (x + 3) % 31;
-  }
-  return count;
+  return Solve(input, [{ right: 3, down: 1 }]);
 }
 
-// min and max are indexes in which the letter must be in exactly one
+// count trees using various slopes, and multiply together
 function Part2(input) {
-  let slopes = [
+  return Solve(input, [
     { right: 1, down: 1 },
     { right: 3, down: 1 },
     { right: 5, down: 1 },
     { right: 7, down: 1 },
     { right: 1, down: 2 }
-  ];
+  ]);
+}
 
+function Solve(input, slopes) {
   let results = slopes.map(slope => {
     let count = 0;
     let x = 0;
@@ -35,7 +31,6 @@ function Part2(input) {
     }
     return count;
   });
-
   return results.reduce((acc, val) => acc * val);
 }
 
@@ -47,5 +42,3 @@ if (typeof window !== "undefined") {
 } else {
   module.exports = { Parse, Part1, Part2 };
 }
-
-// test
