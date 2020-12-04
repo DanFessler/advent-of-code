@@ -5,7 +5,7 @@ let args = process.argv.slice(2);
 let day = args[0] ? parseInt(args[0], 10) : undefined;
 let inputPath = args[1] || "input.txt";
 
-var puzzles = ["./01", "./02", "./03"].map((file, i) => {
+var puzzles = ["./01", "./02", "./03", "./04"].map((file, i) => {
   file = `${__dirname}/${file}`;
   return {
     input: fs
@@ -23,12 +23,16 @@ if (day) solve(day);
 else puzzles.forEach((puzzle, i) => solve(i + 1));
 
 function solve(day) {
-  let puzzle = puzzles[day - 1];
-  let input = puzzle.Parse(puzzle.input);
-  console.log(
-    `day_${day}_1:`,
-    puzzle.Part1(input),
-    `\nday_${day}_2:`,
-    puzzle.Part2(input)
-  );
+  try {
+    let puzzle = puzzles[day - 1];
+    let input = puzzle.Parse(puzzle.input);
+    console.log(
+      `day_${day}_1:`,
+      puzzle.Part1(input),
+      `\nday_${day}_2:`,
+      puzzle.Part2(input)
+    );
+  } catch (err) {
+    console.error("Invalid Puzzle: " + day);
+  }
 }
