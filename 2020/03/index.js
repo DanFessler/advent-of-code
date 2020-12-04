@@ -1,4 +1,4 @@
-// parse the input
+// parse the input into 2D array of bools
 function Parse(input) {
   return input
     .split("\n")
@@ -7,17 +7,17 @@ function Parse(input) {
 
 // count trees starting at 0,0 with a slope of 3:1
 function Part1(input) {
-  return Solve(input, [{ right: 3, down: 1 }]);
+  return Solve(input, [{ x: 3, y: 1 }]);
 }
 
 // count trees using various slopes, and multiply together
 function Part2(input) {
   return Solve(input, [
-    { right: 1, down: 1 },
-    { right: 3, down: 1 },
-    { right: 5, down: 1 },
-    { right: 7, down: 1 },
-    { right: 1, down: 2 }
+    { x: 1, y: 1 },
+    { x: 3, y: 1 },
+    { x: 5, y: 1 },
+    { x: 7, y: 1 },
+    { x: 1, y: 2 }
   ]);
 }
 
@@ -25,9 +25,9 @@ function Solve(input, slopes) {
   let results = slopes.map(slope => {
     let count = 0;
     let x = 0;
-    for (let y = 0; y < input.length; y += slope.down) {
+    for (let y = 0; y < input.length; y += slope.y) {
       if (input[y][x]) count++;
-      x = (x + slope.right) % 31;
+      x = (x + slope.x) % 31;
     }
     return count;
   });
