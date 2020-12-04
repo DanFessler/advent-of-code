@@ -24,6 +24,7 @@ function Part2(input) {
 
 function validate(passport, strict) {
   const rules = {
+    // cid: id => true,
     byr: year => year >= 1920 && year <= 2002,
     iyr: year => year >= 2010 && year <= 2020,
     eyr: year => year >= 2020 && year <= 2030,
