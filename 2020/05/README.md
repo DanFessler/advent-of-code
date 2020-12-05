@@ -1,59 +1,38 @@
-<article class="day-desc"><h2>--- Day 3: Toboggan Trajectory ---</h2><p>With the toboggan login problems resolved, you set off toward the airport. While travel by toboggan might be easy, it's certainly not safe: there's <span title="It looks like the toboggan steering system even runs on Intcode! Good thing you don't have to modify it.">very minimal steering</span> and the area is covered in trees. You'll need to see which angles will take you near the fewest trees.</p>
-<p>Due to the local geology, trees in this area only grow on exact integer coordinates in a grid. You make a map (your puzzle input) of the open squares (<code>.</code>) and trees (<code>#</code>) you can see. For example:</p>
-<pre><code>..##.......
-#...#...#..
-.#....#..#.
-..#.#...#.#
-.#...##..#.
-..#.##.....
-.#.#.#....#
-.#........#
-#.##...#...
-#...##....#
-.#..#...#.#
-</code></pre>
-<p>These aren't the only trees, though; due to something you read about once involving arboreal genetics and biome stability, the same pattern repeats to the right many times:</p>
-<pre><code><em>..##.......</em>..##.........##.........##.........##.........##.......  ---&gt;
-<em>#...#...#..</em>#...#...#..#...#...#..#...#...#..#...#...#..#...#...#..
-<em>.#....#..#.</em>.#....#..#..#....#..#..#....#..#..#....#..#..#....#..#.
-<em>..#.#...#.#</em>..#.#...#.#..#.#...#.#..#.#...#.#..#.#...#.#..#.#...#.#
-<em>.#...##..#.</em>.#...##..#..#...##..#..#...##..#..#...##..#..#...##..#.
-<em>..#.##.....</em>..#.##.......#.##.......#.##.......#.##.......#.##.....  ---&gt;
-<em>.#.#.#....#</em>.#.#.#....#.#.#.#....#.#.#.#....#.#.#.#....#.#.#.#....#
-<em>.#........#</em>.#........#.#........#.#........#.#........#.#........#
-<em>#.##...#...</em>#.##...#...#.##...#...#.##...#...#.##...#...#.##...#...
-<em>#...##....#</em>#...##....##...##....##...##....##...##....##...##....#
-<em>.#..#...#.#</em>.#..#...#.#.#..#...#.#.#..#...#.#.#..#...#.#.#..#...#.#  ---&gt;
-</code></pre>
-<p>You start on the open square (<code>.</code>) in the top-left corner and need to reach the bottom (below the bottom-most row on your map).</p>
-<p>The toboggan can only follow a few specific slopes (you opted for a cheaper model that prefers rational numbers); start by <em>counting all the trees</em> you would encounter for the slope <em>right 3, down 1</em>:</p>
-<p>From your starting position at the top-left, check the position that is right 3 and down 1. Then, check the position that is right 3 and down 1 from there, and so on until you go past the bottom of the map.</p>
-<p>The locations you'd check in the above example are marked here with <code><em>O</em></code> where there was an open square and <code><em>X</em></code> where there was a tree:</p>
-<pre><code>..##.........##.........##.........##.........##.........##.......  ---&gt;
-#..<em>O</em>#...#..#...#...#..#...#...#..#...#...#..#...#...#..#...#...#..
-.#....<em>X</em>..#..#....#..#..#....#..#..#....#..#..#....#..#..#....#..#.
-..#.#...#<em>O</em>#..#.#...#.#..#.#...#.#..#.#...#.#..#.#...#.#..#.#...#.#
-.#...##..#..<em>X</em>...##..#..#...##..#..#...##..#..#...##..#..#...##..#.
-..#.##.......#.<em>X</em>#.......#.##.......#.##.......#.##.......#.##.....  ---&gt;
-.#.#.#....#.#.#.#.<em>O</em>..#.#.#.#....#.#.#.#....#.#.#.#....#.#.#.#....#
-.#........#.#........<em>X</em>.#........#.#........#.#........#.#........#
-#.##...#...#.##...#...#.<em>X</em>#...#...#.##...#...#.##...#...#.##...#...
-#...##....##...##....##...#<em>X</em>....##...##....##...##....##...##....#
-.#..#...#.#.#..#...#.#.#..#...<em>X</em>.#.#..#...#.#.#..#...#.#.#..#...#.#  ---&gt;
-</code></pre>
-<p>In this example, traversing the map using this slope would cause you to encounter <code><em>7</em></code> trees.</p>
-<p>Starting at the top-left corner of your map and following a slope of right 3 and down 1, <em>how many trees would you encounter?</em></p>
-</article>
-<p>Your puzzle answer was <code>171</code>.</p><p class="day-success">The first half of this puzzle is complete! It provides one gold star: *</p>
-<article class="day-desc"><h2 id="part2">--- Part Two ---</h2><p>Time to check the rest of the slopes - you need to minimize the probability of a sudden arboreal stop, after all.</p>
-<p>Determine the number of trees you would encounter if, for each of the following slopes, you start at the top-left corner and traverse the map all the way to the bottom:</p>
+<article class="day-desc"><h2>--- Day 5: Binary Boarding ---</h2><p>You board your plane only to discover a new problem: you dropped your boarding pass! You aren't sure which seat is yours, and all of the flight attendants are busy with the flood of people that suddenly made it through passport control.</p>
+<p>You write a <span title="No problem!">quick program</span> to use your phone's camera to scan all of the nearby boarding passes (your puzzle input); perhaps you can find your seat through process of elimination.</p>
+<p>Instead of <a target="_blank" href="https://www.youtube.com/watch?v=oAHbLRjF0vo">zones or groups</a>, this airline uses <em>binary space partitioning</em> to seat people. A seat might be specified like <code>FBFBBFFRLR</code>, where <code>F</code> means "front", <code>B</code> means "back", <code>L</code> means "left", and <code>R</code> means "right".</p>
+<p>The first 7 characters will either be <code>F</code> or <code>B</code>; these specify exactly one of the <em>128 rows</em> on the plane (numbered <code>0</code> through <code>127</code>). Each letter tells you which half of a region the given seat is in. Start with the whole list of rows; the first letter indicates whether the seat is in the <em>front</em> (<code>0</code> through <code>63</code>) or the <em>back</em> (<code>64</code> through <code>127</code>). The next letter indicates which half of that region the seat is in, and so on until you're left with exactly one row.</p>
+<p>For example, consider just the first seven characters of <code>FBFBBFFRLR</code>:</p>
 <ul>
-<li>Right 1, down 1.</li>
-<li>Right 3, down 1. (This is the slope you already checked.)</li>
-<li>Right 5, down 1.</li>
-<li>Right 7, down 1.</li>
-<li>Right 1, down 2.</li>
+<li>Start by considering the whole range, rows <code>0</code> through <code>127</code>.</li>
+<li><code>F</code> means to take the <em>lower half</em>, keeping rows <code>0</code> through <code>63</code>.</li>
+<li><code>B</code> means to take the <em>upper half</em>, keeping rows <code>32</code> through <code>63</code>.</li>
+<li><code>F</code> means to take the <em>lower half</em>, keeping rows <code>32</code> through <code>47</code>.</li>
+<li><code>B</code> means to take the <em>upper half</em>, keeping rows <code>40</code> through <code>47</code>.</li>
+<li><code>B</code> keeps rows <code>44</code> through <code>47</code>.</li>
+<li><code>F</code> keeps rows <code>44</code> through <code>45</code>.</li>
+<li>The final <code>F</code> keeps the lower of the two, <em>row <code>44</code></em>.</li>
 </ul>
-<p>In the above example, these slopes would find <code>2</code>, <code>7</code>, <code>3</code>, <code>4</code>, and <code>2</code> tree(s) respectively; multiplied together, these produce the answer <code><em>336</em></code>.</p>
-<p><em>What do you get if you multiply together the number of trees encountered on each of the listed slopes?</em></p>
+<p>The last three characters will be either <code>L</code> or <code>R</code>; these specify exactly one of the <em>8 columns</em> of seats on the plane (numbered <code>0</code> through <code>7</code>). The same process as above proceeds again, this time with only three steps.  <code>L</code> means to keep the <em>lower half</em>, while <code>R</code> means to keep the <em>upper half</em>.</p>
+<p>For example, consider just the last 3 characters of <code>FBFBBFFRLR</code>:</p>
+<ul>
+<li>Start by considering the whole range, columns <code>0</code> through <code>7</code>.</li>
+<li><code>R</code> means to take the <em>upper half</em>, keeping columns <code>4</code> through <code>7</code>.</li>
+<li><code>L</code> means to take the <em>lower half</em>, keeping columns <code>4</code> through <code>5</code>.</li>
+<li>The final <code>R</code> keeps the upper of the two, <em>column <code>5</code></em>.</li>
+</ul>
+<p>So, decoding <code>FBFBBFFRLR</code> reveals that it is the seat at <em>row <code>44</code>, column <code>5</code></em>.</p>
+<p>Every seat also has a unique <em>seat ID</em>: multiply the row by 8, then add the column. In this example, the seat has ID <code>44 * 8 + 5 = <em>357</em></code>.</p>
+<p>Here are some other boarding passes:</p>
+<ul>
+<li><code>BFFFBBFRRR</code>: row <code>70</code>, column <code>7</code>, seat ID <code>567</code>.</li>
+<li><code>FFFBBBFRRR</code>: row <code>14</code>, column <code>7</code>, seat ID <code>119</code>.</li>
+<li><code>BBFFBBFRLL</code>: row <code>102</code>, column <code>4</code>, seat ID <code>820</code>.</li>
+</ul>
+<p>As a sanity check, look through your list of boarding passes. <em>What is the highest seat ID on a boarding pass?</em></p>
+</article>
+<article class="day-desc"><h2 id="part2">--- Part Two ---</h2><p><em>Ding!</em> The "fasten seat belt" signs have turned on. Time to find your seat.</p>
+<p>It's a completely full flight, so your seat should be the only missing boarding pass in your list.  However, there's a catch: some of the seats at the very front and back of the plane don't exist on this aircraft, so they'll be missing from your list as well.</p>
+<p>Your seat wasn't at the very front or back, though; the seats with IDs +1 and -1 from yours will be in your list.</p>
+<p><em>What is the ID of your seat?</em></p>
 </article>
