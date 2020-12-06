@@ -16,23 +16,18 @@ function Part2(input) {
 
   return (
     uniques
-      .map((group, i) => {
-        return (
-          [...group]
-            .map(letter => {
-              // for each unique letter in a group, check if every person agreed
-              return (
-                input[i]
-                  // true or false if they agreed
-                  .map(person => person.includes(letter))
-                  // count the true, and see if it equals the size of the group
-                  .reduce((acc, val) => acc + val, 0) === input[i].length
-              );
-            })
-            // add up the unanimous questions for the group
-            .reduce((acc, val) => acc + val)
-        );
-      })
+      .map((group, i) =>
+        [...group]
+          .map(
+            // for each unique letter in a group, check if every person agreed
+            letter =>
+              input[i]
+                .map(person => person.includes(letter))
+                .reduce((acc, val) => acc + val, 0) === input[i].length
+          )
+          // add up the unanimous questions for the group
+          .reduce((acc, val) => acc + val)
+      )
       // add up the unanimous questions for the entire list
       .reduce((acc, val) => acc + val)
   );
