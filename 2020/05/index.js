@@ -14,7 +14,6 @@ function Parse(input) {
 
 // find highest seat ID
 function Part1(input) {
-  console.log(input);
   return decodeSeats(input).reduce((largestId, id) =>
     id > largestId ? id : largestId
   );
