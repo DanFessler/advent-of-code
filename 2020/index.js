@@ -5,7 +5,7 @@ let args = process.argv.slice(2);
 let day = args[0] ? parseInt(args[0], 10) : undefined;
 let inputPath = args[1] || "input.txt";
 
-var puzzles = ["./01", "./02", "./03", "./04", "./05", "./06"].map(
+var puzzles = ["./01", "./02", "./03", "./04", "./05", "./06", "./07"].map(
   (file, i) => {
     file = `${__dirname}/${file}`;
     return {
@@ -35,6 +35,6 @@ function solve(day) {
       puzzle.Part2(input)
     );
   } catch (err) {
-    console.error("Invalid Puzzle: " + day);
+    console.error("Invalid Puzzle: " + day, err);
   }
 }
