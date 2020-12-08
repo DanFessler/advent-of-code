@@ -2,16 +2,16 @@
 function Parse(input) {
   return input.split("\n").map(rule => {
     rule = rule.split(".")[0];
-    let [container, contents] = rule.split(" contain ");
-    container = container.split("bag")[0].trim();
+    let [color, contents] = rule.split(" contain ");
+    color = color.split("bag")[0].trim();
 
-    // console.log(contents);
     if (contents !== "no other bags") {
       contents = contents.split(", ").map(item => {
         let [quantity, ...color] = item
           .split("bag")[0]
           .trim()
           .split(" ");
+
         return {
           color: color.join(" "),
           quantity: parseInt(quantity, 10)
@@ -19,7 +19,7 @@ function Parse(input) {
       });
     } else contents = [];
 
-    return { color: container, contents };
+    return { color, contents };
   });
 }
 
@@ -53,7 +53,7 @@ function Part2(input) {
   return countContents(input, find(input, "shiny gold"));
 
   function countContents(input, bagObj) {
-    if (bagObj.contents.length === 0) return 0;
+    if (!bagObj.contents) return 0;
 
     return bagObj.contents
       .map(inner => {
