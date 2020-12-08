@@ -29,17 +29,17 @@ function Part1(input) {
     .map(container => {
       return (
         container.contents
-          .map(item => findGold(input, item.color))
+          .map(item => countBags(input, item.color, "shiny gold"))
           .reduce((acc, val) => acc + val, 0) > 0
       );
     })
     .reduce((acc, val) => acc + val);
 
-  function findGold(input, bagColor) {
+  function countBags(input, bagColor, searchColor) {
     if (
-      bagColor === "shiny gold" ||
+      bagColor === searchColor ||
       find(input, bagColor).contents.filter(innerBag =>
-        findGold(input, innerBag.color)
+        countBags(input, innerBag.color, searchColor)
       ).length
     ) {
       return true;
@@ -52,14 +52,14 @@ function Part1(input) {
 function Part2(input) {
   return countContents(input, find(input, "shiny gold"));
 
-  function countContents(input, bagObj) {
-    if (!bagObj.contents) return 0;
+  function countContents(input, container) {
+    if (!container.contents) return 0;
 
-    return bagObj.contents
-      .map(inner => {
+    return container.contents
+      .map(bag => {
         return (
-          inner.quantity +
-          countContents(input, find(input, inner.color)) * inner.quantity
+          bag.quantity +
+          countContents(input, find(input, bag.color)) * bag.quantity
         );
       })
       .reduce((acc, val) => acc + val, 0);
