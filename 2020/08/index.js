@@ -22,9 +22,6 @@ function Part1(input) {
       case "jmp":
         i += val - 1;
         break;
-      case "nop":
-      default:
-        break;
     }
   }
   return [acc, true];
