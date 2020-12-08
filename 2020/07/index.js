@@ -22,23 +22,20 @@ function Parse(input) {
 
 // how many rules can contain shiny gold
 function Part1(input) {
-  return input.reduce((acc, container) => {
-    let count = container.contents.reduce((acc, item) => {
-      return acc + countBags(input, item.color, "shiny gold");
-    }, 0);
-    return acc + (count > 0);
-  }, 0);
+  return (
+    input.reduce((acc, container) => {
+      let count = countBags(input, container, "shiny gold");
+      return acc + (count > 0);
+    }, 0) - 1
+  );
 
-  function countBags(input, bagColor, searchColor) {
-    if (
-      bagColor === searchColor ||
-      find(input, bagColor).contents.filter(innerBag =>
-        countBags(input, innerBag.color, searchColor)
+  function countBags(input, container, searchColor) {
+    return (
+      container.color === searchColor ||
+      container.contents.filter(innerBag =>
+        countBags(input, find(input, innerBag.color), searchColor)
       ).length
-    ) {
-      return true;
-    }
-    return false;
+    );
   }
 }
 
