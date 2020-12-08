@@ -22,15 +22,12 @@ function Parse(input) {
 
 // how many rules can contain shiny gold
 function Part1(input) {
-  return input
-    .map(container => {
-      return (
-        container.contents
-          .map(item => countBags(input, item.color, "shiny gold"))
-          .reduce((acc, val) => acc + val, 0) > 0
-      );
-    })
-    .reduce((acc, val) => acc + val);
+  return input.reduce((acc, container) => {
+    let count = container.contents.reduce((acc, item) => {
+      return acc + countBags(input, item.color, "shiny gold");
+    }, 0);
+    return acc + (count > 0);
+  }, 0);
 
   function countBags(input, bagColor, searchColor) {
     if (
@@ -50,14 +47,10 @@ function Part2(input) {
   return countContents(input, find(input, "shiny gold"));
 
   function countContents(input, container) {
-    return container.contents
-      .map(bag => {
-        return (
-          bag.quantity +
-          countContents(input, find(input, bag.color)) * bag.quantity
-        );
-      })
-      .reduce((acc, val) => acc + val, 0);
+    return container.contents.reduce((acc, bag) => {
+      let count = countContents(input, find(input, bag.color)) * bag.quantity;
+      return acc + bag.quantity + count;
+    }, 0);
   }
 }
 
