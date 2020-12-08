@@ -3,7 +3,7 @@ function Parse(input) {
   return input.split("\r\n").map(cmd => cmd.split(" "));
 }
 
-// what's val of acc before repeating an instruction
+// value of acc before repeating an instruction
 function Part1(input) {
   let acc = 0;
   let visited = {};
@@ -27,7 +27,7 @@ function Part1(input) {
   return [acc, true];
 }
 
-// What's val of acc after patching in fixed instruction
+// value of acc after patching in fixed instruction
 function Part2(input) {
   for (let i = 0; i < input.length; i++) {
     let inputCopy = [...input];
