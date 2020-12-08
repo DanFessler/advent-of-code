@@ -3,23 +3,20 @@ function Parse(input) {
   return input.split("\n").map(rule => {
     rule = rule.split(".")[0];
     let [color, contents] = rule.split(" contain ");
-    color = color.split("bag")[0].trim();
 
-    if (contents !== "no other bags") {
-      contents = contents.split(", ").map(item => {
-        let [quantity, ...color] = item
-          .split("bag")[0]
-          .trim()
-          .split(" ");
-
-        return {
-          color: color.join(" "),
-          quantity: parseInt(quantity, 10)
-        };
-      });
-    } else contents = [];
-
-    return { color, contents };
+    return {
+      color: color.split(" bags")[0],
+      contents:
+        contents === "no other bags"
+          ? []
+          : contents.split(", ").map(item => {
+              let [quantity, ...color] = item.split(" bag")[0].split(" ");
+              return {
+                color: color.join(" "),
+                quantity: parseInt(quantity, 10)
+              };
+            })
+    };
   });
 }
 
@@ -53,8 +50,6 @@ function Part2(input) {
   return countContents(input, find(input, "shiny gold"));
 
   function countContents(input, container) {
-    if (!container.contents) return 0;
-
     return container.contents
       .map(bag => {
         return (
@@ -67,11 +62,7 @@ function Part2(input) {
 }
 
 function find(input, bagColor) {
-  try {
-    return input.find(bagObj => bagObj.color === bagColor);
-  } catch {
-    console.log("ERR");
-  }
+  return input.find(bagObj => bagObj.color === bagColor);
 }
 
 // if we're running in the browser, parse the input from the document
