@@ -3,48 +3,39 @@ function Parse(input) {
   return input.split("\n").map(rule => {
     rule = rule.split(".")[0];
     let [color, contents] = rule.split(" contain ");
-    color = color.split("bag")[0].trim();
 
-    if (contents !== "no other bags") {
-      contents = contents.split(", ").map(item => {
-        let [quantity, ...color] = item
-          .split("bag")[0]
-          .trim()
-          .split(" ");
-
-        return {
-          color: color.join(" "),
-          quantity: parseInt(quantity, 10)
-        };
-      });
-    } else contents = [];
-
-    return { color, contents };
+    return {
+      color: color.split(" bags")[0],
+      contents:
+        contents === "no other bags"
+          ? []
+          : contents.split(", ").map(item => {
+              let [quantity, ...color] = item.split(" bag")[0].split(" ");
+              return {
+                color: color.join(" "),
+                quantity: parseInt(quantity, 10)
+              };
+            })
+    };
   });
 }
 
 // how many rules can contain shiny gold
 function Part1(input) {
-  return input
-    .map(container => {
-      return (
-        container.contents
-          .map(item => countBags(input, item.color, "shiny gold"))
-          .reduce((acc, val) => acc + val, 0) > 0
-      );
-    })
-    .reduce((acc, val) => acc + val);
+  return (
+    input.reduce((acc, container) => {
+      let count = countBags(input, container, "shiny gold");
+      return acc + (count > 0);
+    }, 0) - 1
+  );
 
-  function countBags(input, bagColor, searchColor) {
-    if (
-      bagColor === searchColor ||
-      find(input, bagColor).contents.filter(innerBag =>
-        countBags(input, innerBag.color, searchColor)
+  function countBags(input, container, searchColor) {
+    return (
+      container.color === searchColor ||
+      container.contents.filter(innerBag =>
+        countBags(input, find(input, innerBag.color), searchColor)
       ).length
-    ) {
-      return true;
-    }
-    return false;
+    );
   }
 }
 
@@ -53,25 +44,15 @@ function Part2(input) {
   return countContents(input, find(input, "shiny gold"));
 
   function countContents(input, container) {
-    if (!container.contents) return 0;
-
-    return container.contents
-      .map(bag => {
-        return (
-          bag.quantity +
-          countContents(input, find(input, bag.color)) * bag.quantity
-        );
-      })
-      .reduce((acc, val) => acc + val, 0);
+    return container.contents.reduce((acc, bag) => {
+      let count = countContents(input, find(input, bag.color)) * bag.quantity;
+      return acc + bag.quantity + count;
+    }, 0);
   }
 }
 
 function find(input, bagColor) {
-  try {
-    return input.find(bagObj => bagObj.color === bagColor);
-  } catch {
-    console.log("ERR");
-  }
+  return input.find(bagObj => bagObj.color === bagColor);
 }
 
 // if we're running in the browser, parse the input from the document
