@@ -1,6 +1,6 @@
 // parse the input into array of binary addresses
 function Parse(input) {
-  return input.split("\n").map(seat => ({
+  return input.split("\r\n").map(seat => ({
     row: seat
       .substr(0, 7)
       .split("")

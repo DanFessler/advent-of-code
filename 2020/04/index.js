@@ -1,7 +1,7 @@
 // parse the input into array of passport objects
 function Parse(input) {
-  return input.split("\n\n").map(passport => {
-    let rows = passport.split(/[ \n]+/).map(row => row.split(":"));
+  return input.split("\r\n\r\n").map(passport => {
+    let rows = passport.split(/[ \r\n]+/).map(row => row.split(":"));
     let obj = {};
     rows.forEach(row => {
       let [key, val] = row;

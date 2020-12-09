@@ -1,6 +1,6 @@
 // parse the input
 function Parse(input) {
-  return input.split("\n\n").map(group => group.split("\n"));
+  return input.split("\r\n\r\n").map(group => group.split("\r\n"));
 }
 
 // Part 1
