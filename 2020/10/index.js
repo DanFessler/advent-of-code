@@ -26,7 +26,8 @@ function Part1(input) {
     [0, 0]
   );
 
-  return { sorted, diffs };
+  return sorted.map((elem, i) => `${elem}:${diffs[i]}`);
+  return [diffCounts, diffCounts[0] * diffCounts[1]];
   return diffCounts[0] * diffCounts[1];
 }
 
@@ -43,3 +44,21 @@ if (typeof window !== "undefined") {
 } else {
   module.exports = { Parse, Part1, Part2 };
 }
+
+// 3, 2
+// 2, 1
+// 4 * 2 = 6
+
+// consecutives:  4,4,3,2,4,1,4
+// minus one:     3,3,2,1,3,  3
+// binary +1:     8,8,4,2,8,  8
+
+let input = [16, 10, 15, 5, 1, 11, 7, 19, 6, 12, 4];
+// let input = [28,33,18,42,31,14,46,20,48,47,24,23,49,45,19,38,39,11,1,32,25,35,8,17,7,9,4,2,34,10,3]; //prettier-ignore
+
+// 4, 4, 3, 2, 4, 1, 4
+let consecutives = [1, 3, 2, 1]
+  .map(elem => Math.floor(elem / 2))
+  .reduce((acc, val) => acc * (val ? Math.pow(2, val) : 1));
+
+console.log(consecutives);
