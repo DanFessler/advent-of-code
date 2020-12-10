@@ -1,6 +1,6 @@
 // parse the input
 function Parse(input) {
-  return input.split("\n").map(rule => {
+  return input.split(/\n/).map(rule => {
     rule = rule.split(".")[0];
     let [color, contents] = rule.split(" contain ");
 

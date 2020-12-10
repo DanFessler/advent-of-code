@@ -1,6 +1,6 @@
 // parse the input
 function Parse(input) {
-  return input.split("\n").map(line => {
+  return input.split(/\n/).map(line => {
     let [policy, password] = line.split(": ");
     let [range, letter] = policy.split(" ");
     let [min, max] = range.split("-");

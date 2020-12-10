@@ -1,6 +1,6 @@
 // parse the input
 function Parse(input) {
-  return input.split("\n").map(n => parseInt(n, 10));
+  return input.split(/\n/).map(n => parseInt(n, 10));
 }
 
 // return first number who's 2 of prior 25 dont sum to it

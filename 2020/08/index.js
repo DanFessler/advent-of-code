@@ -1,6 +1,6 @@
 // parse the input
 function Parse(input) {
-  return input.split("\r\n").map(cmd => cmd.split(" "));
+  return input.split(/\n/).map(cmd => cmd.split(" "));
 }
 
 // value of acc before repeating an instruction

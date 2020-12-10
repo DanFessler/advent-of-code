@@ -1,6 +1,6 @@
 // parse the input
 function Parse(input) {
-  return input.split("\n").map(item => parseInt(item, 10));
+  return input.split(/\n/).map(item => parseInt(item, 10));
 }
 
 // Find two numbers that add to 2020 and multiply them together

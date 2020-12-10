@@ -1,7 +1,7 @@
 // parse the input into 2D array of bools
 function Parse(input) {
   return input
-    .split("\n")
+    .split(/\n/)
     .map(row => row.split("").map(cel => (cel === "." ? 0 : 1)));
 }
 
