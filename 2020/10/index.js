@@ -24,15 +24,6 @@ function Part1(input) {
   return diffCounts[0] * diffCounts[1];
 }
 
-function getDiffs(input) {
-  const sorted = input.sort((a, b) => a - b);
-  const builtin = sorted[sorted.length - 1] + 3;
-
-  return [...sorted, builtin].map((jolts, i) => {
-    return i ? jolts - sorted[i - 1] : jolts;
-  });
-}
-
 // can only get rid of indexes who's diffs are 1 and not before a 3
 // count all combinations of getting rid of those indexes
 // but can't get rid of more than 2 consecutive indexes
@@ -54,13 +45,23 @@ function Part2(input) {
     lastbit = jolt;
   }
 
-  // I worked out the permutations by hand for a string of consecutive 1-diffs up from 0 to 4
-  // which seems like the longest consecutive string present in my data
-  const permutationTable = [1, 2, 4, 7, 14];
+  // I worked out the permutations by hand for a run of consecutive 1-diffs from 1 to 5
+  // which 4 seems like the longest consecutive run present in my data. Not happy with this
+  const permutationTable = [1, 2, 4, 7, 13];
   results = results.map(val => permutationTable[val - 1]);
+  console.log(results);
 
   // multiply the permutations together
   return results.reduce((acc, val) => acc * val);
+}
+
+function getDiffs(input) {
+  const sorted = input.sort((a, b) => a - b);
+  const builtin = sorted[sorted.length - 1] + 3;
+
+  return [...sorted, builtin].map((jolts, i) => {
+    return i ? jolts - sorted[i - 1] : jolts;
+  });
 }
 
 // if we're running in the browser, parse the input from the document
