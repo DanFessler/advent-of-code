@@ -5,7 +5,7 @@ let args = process.argv.slice(2);
 let day = args[0] ? parseInt(args[0], 10) : undefined;
 let inputPath = args[1] || "input.txt";
 
-var puzzles = ["./01", "./02"].map((file, i) => {
+var puzzles = ["./01", "./02", "./03"].map((file, i) => {
   file = `${__dirname}/${file}`;
   return {
     input: fs
