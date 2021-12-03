@@ -5,21 +5,23 @@ function Parse(input) {
     .map((num) => num.split("").map((num) => parseInt(num, 10)));
 }
 
+// Return power consumption by multiplying gamma and epsilon rates
 function Part1(input) {
   const total = input.reduce((acc, numArr) => {
     return numArr.map((num, i) => (acc[i] += num));
   }, new Array(12).fill(0));
 
-  const binary = total
+  const gammaRate = total
     .map((total) => (total / input.length > 0.5 ? 1 : 0))
     .join("");
-  const binaryNot = total
+  const epsilonRate = total
     .map((total) => (total / input.length > 0.5 ? 0 : 1))
     .join("");
 
-  return parseInt(binary, 2) * parseInt(binaryNot, 2);
+  return parseInt(gammaRate, 2) * parseInt(epsilonRate, 2);
 }
 
+// Return life support rating by multiplying oxygen and C02 scrubber ratings
 function Part2(input) {
   function getRating(invert) {
     let filtered = input;
