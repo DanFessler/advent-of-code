@@ -1,6 +1,6 @@
 // parse the input
 function Parse(input) {
-  return input.split(/\r\n/).map((item) => {
+  return input.split(/\r?\n/).map((item) => {
     let [direction, steps] = item.split(" ");
     return [direction, parseInt(steps, 10)];
   });
