@@ -6,9 +6,11 @@ function Parse(input) {
 // count the number of times a depth measurement increases from the previous measurement
 function Part1(input) {
   let count = 0;
+
   for (let i = 1; i < input.length; i++) {
     if (input[i] > input[i - 1]) count++;
   }
+
   return count;
 }
 
@@ -16,11 +18,13 @@ function Part1(input) {
 function Part2(input) {
   let count = 0;
   let lastSum = undefined;
+
   for (let i = 1; i < input.length; i++) {
     let sum = input[i - 1] + input[i] + input[i + 1];
     if (lastSum !== undefined && sum > lastSum) count++;
     lastSum = sum;
   }
+
   return count;
 }
 
