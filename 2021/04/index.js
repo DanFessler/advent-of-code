@@ -54,7 +54,13 @@ function play(random, boards, func) {
       if (!board) return;
 
       // Mark the square
-      markNum(board, num);
+      for (let y = 0; y < 5; y++) {
+        for (let x = 0; x < 5; x++) {
+          if (board[y][x] === num) {
+            board[y][x] = "x";
+          }
+        }
+      }
 
       // check for a win and run custom function
       if (checkWin(board)) {
@@ -72,39 +78,16 @@ function sumCels(board) {
   }, 0);
 }
 
-function markNum(board, num) {
-  let marked = false;
-  for (let y = 0; y < 5; y++) {
-    for (let x = 0; x < 5; x++) {
-      if (board[y][x] === num) {
-        board[y][x] = "x";
-        marked = true;
-      }
-    }
-  }
-  return marked;
-}
-
 function checkWin(board) {
-  // check horizontal
   for (let y = 0; y < 5; y++) {
-    let count = 0;
+    let countH = 0;
+    let countV = 0;
     for (let x = 0; x < 5; x++) {
-      if (board[y][x] === "x") count++;
+      if (board[y][x] === "x") countH++;
+      if (board[x][y] === "x") countV++;
     }
-    if (count === 5) return true;
+    if (countH === 5 || countV === 5) return true;
   }
-
-  // check vertical
-  for (let x = 0; x < 5; x++) {
-    let count = 0;
-    for (let y = 0; y < 5; y++) {
-      if (board[y][x] === "x") count++;
-    }
-    if (count === 5) return true;
-  }
-
-  // if we got here, the board isn't a winner yet
   return false;
 }
 
