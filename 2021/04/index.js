@@ -18,11 +18,11 @@ function Parse(input) {
 // Find first winning board
 function Part1(input) {
   try {
-    play(input, (board, num) => {
-      throw sumCels(board) * num;
+    play(input, (result) => {
+      throw result;
     });
-  } catch (total) {
-    return total;
+  } catch (result) {
+    return result;
   }
 }
 
@@ -30,17 +30,19 @@ function Part1(input) {
 function Part2(input) {
   try {
     let winCount = 0;
-    play(input, (board, num) => {
+    play(input, (result) => {
       if (++winCount === input.boards.length) {
-        throw sumCels(board) * num;
+        throw result;
       }
     });
-  } catch (total) {
-    return total;
+  } catch (result) {
+    return result;
   }
 }
 
-function play({ random, boards }, func) {
+function play(input, func) {
+  let { random, boards } = input;
+
   random.forEach((num) => {
     boards.forEach((board, i) => {
       if (!board) return;
@@ -54,7 +56,7 @@ function play({ random, boards }, func) {
       }
 
       if (checkWin(board)) {
-        func(board, num);
+        func(sumCels(board) * num);
         boards[i] = null;
       }
     });
