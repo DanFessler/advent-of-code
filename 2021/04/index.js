@@ -40,7 +40,7 @@ function Part2(input) {
   }
 }
 
-function play(input, func) {
+function play(input, onWin) {
   let { random, boards } = input;
 
   random.forEach((num) => {
@@ -56,7 +56,7 @@ function play(input, func) {
       }
 
       if (checkWin(board)) {
-        func(sumCels(board) * num);
+        onWin(sumCels(board) * num);
         boards[i] = null;
       }
     });
