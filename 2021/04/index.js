@@ -9,9 +9,7 @@ function Parse(input) {
         return row
           .trim()
           .split(/\s\s?/)
-          .map((num) => {
-            return num * 1;
-          });
+          .map((num) => num * 1);
       });
     }),
   };
@@ -19,41 +17,34 @@ function Parse(input) {
 
 // Find first winning board
 function Part1(input) {
-  let { random, boards } = input;
-
   try {
-    play(random, boards, (board, num) => {
-      throw [board, num];
+    play(input, (board, num) => {
+      throw sumCels(board) * num;
     });
-  } catch ([board, num]) {
-    return sumCels(board) * num;
+  } catch (total) {
+    return total;
   }
 }
 
 // Find last winning board
 function Part2(input) {
-  let { random, boards } = input;
-
   try {
     let winCount = 0;
-    play(random, boards, (board, num) => {
-      winCount++;
-      if (winCount === boards.length) {
-        throw [board, num];
+    play(input, (board, num) => {
+      if (++winCount === input.boards.length) {
+        throw sumCels(board) * num;
       }
     });
-  } catch ([board, num]) {
-    return sumCels(board) * num;
+  } catch (total) {
+    return total;
   }
 }
 
-function play(random, boards, func) {
+function play({ random, boards }, func) {
   random.forEach((num) => {
     boards.forEach((board, i) => {
-      // exit early if board is already solved
       if (!board) return;
 
-      // Mark the square
       for (let y = 0; y < 5; y++) {
         for (let x = 0; x < 5; x++) {
           if (board[y][x] === num) {
@@ -62,7 +53,6 @@ function play(random, boards, func) {
         }
       }
 
-      // check for a win and run custom function
       if (checkWin(board)) {
         func(board, num);
         boards[i] = null;
