@@ -12,8 +12,8 @@ function Parse(input) {
 // solve only vertical and horizontal lines
 function Part1(input) {
   return solve(
-    input.filter(([start, end]) => {
-      return start[0] == end[0] || start[1] == end[1];
+    input.filter(([[x1, y1], [x2, y2]]) => {
+      return x1 == x2 || y1 == y2;
     })
   );
 }
