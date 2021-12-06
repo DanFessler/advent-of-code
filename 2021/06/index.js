@@ -23,27 +23,27 @@ function Part1(input, days = 80) {
 // Part 2
 function Part2(input, days = 256) {
   // separate into age groups
-  let fish = new Array(9).fill(0);
+  let ageGroups = new Array(9).fill(0);
   input.forEach((age) => {
-    fish[age]++;
+    ageGroups[age]++;
   });
 
   // update group counts each day;
   for (let i = 0; i < days; i++) {
-    let newFish = new Array(9).fill(0);
-    for (day in fish) {
+    let newAges = new Array(9).fill(0);
+    for (day in ageGroups) {
       if (day == 0) {
-        newFish[6] = fish[0];
-        newFish[8] = fish[0];
+        newAges[6] = ageGroups[0];
+        newAges[8] = ageGroups[0];
       } else {
-        newFish[day - 1] += fish[day];
+        newAges[day - 1] += ageGroups[day];
       }
     }
-    fish = [...newFish];
+    ageGroups = [...newAges];
   }
 
   // sum the total
-  return fish.reduce((acc, val) => acc + val, 0);
+  return ageGroups.reduce((acc, val) => acc + val, 0);
 }
 
 // if we're running in the browser, parse the input from the document
