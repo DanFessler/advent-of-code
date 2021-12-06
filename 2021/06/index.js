@@ -21,7 +21,7 @@ function Part1(input, days = 80) {
 }
 
 // Part 2
-function Part2(input) {
+function Part2(input, days = 256) {
   // separate into age groups
   let fish = new Array(9).fill(0);
   input.forEach((age) => {
@@ -29,7 +29,7 @@ function Part2(input) {
   });
 
   // update group counts each day;
-  for (let i = 0; i < 256; i++) {
+  for (let i = 0; i < days; i++) {
     let newFish = new Array(9).fill(0);
     for (day in fish) {
       if (day == 0) {
