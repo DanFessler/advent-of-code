@@ -22,7 +22,7 @@ function solve(input, gasFunction) {
   let sorted = input.sort((a, b) => a - b);
   let [min, max] = [sorted[0], sorted[sorted.length - 1]];
 
-  let lowest = null;
+  let lowest;
   for (let target = min; target <= max; target++) {
     let spentFuel = sum(sorted.map((pos) => gasFunction(pos, target)));
     if (!lowest || spentFuel < lowest) lowest = spentFuel;
