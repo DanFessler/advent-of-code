@@ -36,6 +36,8 @@ function Part2(input) {
       if (element.length == 4) digits[4] = element;
       if (element.length == 3) digits[7] = element;
       if (element.length == 7) digits[8] = element;
+
+      // add ambiguous strings to a set list by length
       if (element.length == 5) fives.add(element);
       if (element.length == 6) sixes.add(element);
     });
