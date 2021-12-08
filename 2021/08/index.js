@@ -1,14 +1,12 @@
 // parse the input
 function Parse(input) {
-  return input
-    .split(/\r?\n/)
-    .map((line) =>
-      line
-        .split(" | ")
-        .map((part) =>
-          part.split(" ").map((string) => string.split("").sort().join(""))
-        )
-    );
+  return input.split(/\r?\n/).map((line) =>
+    line.split(" | ").map((part) =>
+      part.split(" ").map((string) => {
+        return string.split("").sort().join("");
+      })
+    )
+  );
 }
 
 // Part 1
@@ -36,13 +34,13 @@ function Part2(input) {
     digits[1] = patterns[0];
     digits[4] = patterns[2];
     digits[7] = patterns[1];
-    digits[8] = patterns[patterns.length - 1];
-    digits[3] = fives.find((string) => includesChars(string, digits[1]));
-    digits[9] = sixes.find((string) => includesChars(string, digits[4]));
-    digits[2] = fives.find((string) => !includesChars(digits[9], string));
-    digits[6] = sixes.find((string) => !includesChars(string, digits[7]));
-    digits[5] = fives.find((string) => includesChars(digits[6], string));
-    digits[0] = sixes.find((string) => !includesChars(string, digits[5]));
+    digits[8] = patterns[9];
+    digits[3] = fives.find((pattern) => includesChars(pattern, digits[1]));
+    digits[9] = sixes.find((pattern) => includesChars(pattern, digits[4]));
+    digits[2] = fives.find((pattern) => !includesChars(digits[9], pattern));
+    digits[6] = sixes.find((pattern) => !includesChars(pattern, digits[7]));
+    digits[5] = fives.find((pattern) => includesChars(digits[6], pattern));
+    digits[0] = sixes.find((pattern) => !includesChars(pattern, digits[5]));
 
     // transpose key/value to make a string mapping
     let mapping = {};
