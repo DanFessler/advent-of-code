@@ -28,53 +28,23 @@ function Part1(input) {
 function Part2(input) {
   let results = input.map(([patterns, output]) => {
     let digits = {};
-    let fives = new Set();
-    let sixes = new Set();
 
-    // first match all the uniques
-    patterns.forEach((element) => {
-      if (element.length == 2) digits[1] = element;
-      if (element.length == 4) digits[4] = element;
-      if (element.length == 3) digits[7] = element;
-      if (element.length == 7) digits[8] = element;
+    patterns.sort((a, b) => a.length - b.length);
 
-      // add ambiguous strings to a set list by length
-      if (element.length == 5) fives.add(element);
-      if (element.length == 6) sixes.add(element);
-    });
+    digits[1] = patterns[0];
+    digits[4] = patterns[2];
+    digits[7] = patterns[1];
+    digits[8] = patterns[patterns.length - 1];
 
-    // 3 is the only length-5 that contains the segments from digit 1
-    digits[3] = [...fives].find((string) => {
-      return includesChars(string, digits[1]);
-    });
+    let fives = patterns.filter((pattern) => pattern.length == 5);
+    let sixes = patterns.filter((pattern) => pattern.length == 6);
 
-    // 5 contains segments from digit 4 when you remove digit 1 segments
-    digits[5] = [...fives].find((string) => {
-      return includesChars(
-        string,
-        digits[4].replace(digits[1][0], "").replace(digits[1][1], "")
-      );
-    });
-
-    // 2 is the last remaining length-5
-    digits[2] = [...fives].find((string) => {
-      return string !== digits[3] && string !== digits[5];
-    });
-
-    // 9 is the only length-6 that contains the segments from digit 3
-    digits[9] = [...sixes].find((string) => {
-      return includesChars(string, digits[3]);
-    });
-
-    // 6 contains digit 5, but so does 9 which we've already found so exclude it
-    digits[6] = [...sixes].find((string) => {
-      return includesChars(string, digits[5]) && string !== digits[9];
-    });
-
-    // 0 is the last remaining length-6
-    digits[0] = [...sixes].find((string) => {
-      return string !== digits[6] && string !== digits[9];
-    });
+    digits[3] = fives.find((string) => includesChars(string, digits[1]));
+    digits[9] = sixes.find((string) => includesChars(string, digits[4]));
+    digits[2] = fives.find((string) => !includesChars(digits[9], string));
+    digits[6] = sixes.find((string) => !includesChars(string, digits[7]));
+    digits[5] = fives.find((string) => includesChars(digits[6], string));
+    digits[0] = sixes.find((string) => !includesChars(string, digits[5]));
 
     // transpose key/value to make a string mapping
     let mapping = {};
