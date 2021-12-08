@@ -30,15 +30,13 @@ function Part2(input) {
     let digits = {};
 
     patterns.sort((a, b) => a.length - b.length);
+    let fives = patterns.filter((pattern) => pattern.length == 5);
+    let sixes = patterns.filter((pattern) => pattern.length == 6);
 
     digits[1] = patterns[0];
     digits[4] = patterns[2];
     digits[7] = patterns[1];
     digits[8] = patterns[patterns.length - 1];
-
-    let fives = patterns.filter((pattern) => pattern.length == 5);
-    let sixes = patterns.filter((pattern) => pattern.length == 6);
-
     digits[3] = fives.find((string) => includesChars(string, digits[1]));
     digits[9] = sixes.find((string) => includesChars(string, digits[4]));
     digits[2] = fives.find((string) => !includesChars(digits[9], string));
