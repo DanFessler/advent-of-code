@@ -31,6 +31,7 @@ function Part2(input) {
     let fives = new Set();
     let sixes = new Set();
 
+    // first match all the uniques
     patterns.forEach((element) => {
       if (element.length == 2) digits[1] = element;
       if (element.length == 4) digits[4] = element;
@@ -42,31 +43,35 @@ function Part2(input) {
       if (element.length == 6) sixes.add(element);
     });
 
+    // 3 is the only length-5 that contains the segments from digit 1
     digits[3] = [...fives].find((string) => {
       return includesChars(string, digits[1]);
     });
 
+    // 5 contains segments from digit 4 when you remove digit 1 segments
     digits[5] = [...fives].find((string) => {
-      let fourNotOne = digits[4]
-        .replace(digits[1][0], "")
-        .replace(digits[1][1], "");
-      return includesChars(string, fourNotOne);
+      return includesChars(
+        string,
+        digits[4].replace(digits[1][0], "").replace(digits[1][1], "")
+      );
     });
 
+    // 2 is the last remaining length-5
     digits[2] = [...fives].find((string) => {
       return string !== digits[3] && string !== digits[5];
     });
 
+    // 9 is the only length-6 that contains the segments from digit 3
     digits[9] = [...sixes].find((string) => {
       return includesChars(string, digits[3]);
     });
 
+    // 6 contains digit 5, but so does 9 which we've already found so exclude it
     digits[6] = [...sixes].find((string) => {
-      return (
-        includesChars(string, digits[5]) && !includesChars(string, digits[9])
-      );
+      return includesChars(string, digits[5]) && string !== digits[9];
     });
 
+    // 0 is the last remaining length-6
     digits[0] = [...sixes].find((string) => {
       return string !== digits[6] && string !== digits[9];
     });
