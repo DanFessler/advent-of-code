@@ -28,19 +28,19 @@ function Part2(input) {
     let digits = {};
 
     patterns.sort((a, b) => a.length - b.length);
-    let fives = patterns.filter((pattern) => pattern.length == 5);
-    let sixes = patterns.filter((pattern) => pattern.length == 6);
+    let L5 = patterns.filter((pattern) => pattern.length == 5);
+    let L6 = patterns.filter((pattern) => pattern.length == 6);
 
     digits[1] = patterns[0];
     digits[4] = patterns[2];
     digits[7] = patterns[1];
     digits[8] = patterns[9];
-    digits[3] = fives.find((pattern) => includesChars(pattern, digits[1]));
-    digits[9] = sixes.find((pattern) => includesChars(pattern, digits[4]));
-    digits[2] = fives.find((pattern) => !includesChars(digits[9], pattern));
-    digits[6] = sixes.find((pattern) => !includesChars(pattern, digits[7]));
-    digits[5] = fives.find((pattern) => includesChars(digits[6], pattern));
-    digits[0] = sixes.find((pattern) => !includesChars(pattern, digits[5]));
+    digits[3] = L5.find((pattern) => includesChars(pattern, digits[1]));
+    digits[9] = L6.find((pattern) => includesChars(pattern, digits[4]));
+    digits[2] = L5.find((pattern) => !includesChars(digits[9], pattern));
+    digits[6] = L6.find((pattern) => !includesChars(pattern, digits[7]));
+    digits[5] = L5.find((pattern) => includesChars(digits[6], pattern));
+    digits[0] = L6.find((pattern) => !includesChars(pattern, digits[5]));
 
     // transpose key/value to make a string mapping
     let mapping = {};
