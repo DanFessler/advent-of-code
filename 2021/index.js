@@ -14,6 +14,7 @@ var puzzles = [
   "./06",
   "./07",
   "./08",
+  "./09",
 ].map((file, i) => {
   file = `${__dirname}/${file}`;
   return {
