@@ -12,6 +12,7 @@ function Part1(input) {
   findLowPoints(input, (x, y) => {
     lowestPoints.push(input[y][x]);
   });
+
   return lowestPoints.reduce((acc, point) => acc + point + 1, 0);
 }
 
@@ -31,29 +32,34 @@ function Part2(input) {
 
 function getBasinSize(input, x, y) {
   let hash = { [`${x},${y}`]: input[y][x] };
+
   while (true) {
-    let expanded = false;
+    let newHash = {};
+
     for (key in hash) {
       let [x, y] = key.split(",").map((val) => val * 1);
+      const neighbors = [
+        [x, y - 1],
+        [x, y + 1],
+        [x - 1, y],
+        [x + 1, y],
+      ];
 
-      if (test(x, y - 1)) expanded = true;
-      if (test(x, y + 1)) expanded = true;
-      if (test(x - 1, y)) expanded = true;
-      if (test(x + 1, y)) expanded = true;
+      neighbors.forEach(([tx, ty]) => {
+        if (tx < 0 || tx > input[0].length - 1) return;
+        if (ty < 0 || ty > input.length - 1) return;
+        if (hash[`${tx},${ty}`]) return;
+        if (input[ty][tx] == 9) return;
+        if (input[ty][tx] <= input[y][x]) return;
 
-      function test(tx, ty) {
-        if (tx < 0 || tx > input[0].length - 1) return false;
-        if (ty < 0 || ty > input.length - 1) return false;
-        if (hash[`${tx},${ty}`]) return false;
-        if (input[ty][tx] == 9) return false;
-        if (input[ty][tx] <= input[y][x]) return false;
-
-        hash[`${tx},${ty}`] = input[ty][tx];
-        return true;
-      }
+        newHash[`${tx},${ty}`] = input[ty][tx];
+      });
     }
-    if (!expanded) break;
+
+    hash = { ...hash, ...newHash };
+    if (!Object.keys(newHash).length) break;
   }
+
   return Object.keys(hash).length;
 }
 
