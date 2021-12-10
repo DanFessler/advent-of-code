@@ -3,15 +3,15 @@ function Parse(input) {
   return input.split(/\r?\n/).map((row) => row.split(""));
 }
 
-const openings = "([{<";
-const closings = ")]}>";
+const OPENINGS = "([{<";
+const CLOSINGS = ")]}>";
 
 // Part 1
 function Part1(input) {
   let { errors } = solve(input);
 
   return errors.reduce((acc, tok) => {
-    return acc + [3, 57, 1197, 25137][closings.indexOf(tok)];
+    return acc + [3, 57, 1197, 25137][CLOSINGS.indexOf(tok)];
   }, 0);
 }
 
@@ -21,7 +21,7 @@ function Part2(input) {
 
   let scores = endings.map((ending) =>
     ending.reduce((acc, tok) => {
-      return acc * 5 + closings.indexOf(tok) + 1;
+      return acc * 5 + CLOSINGS.indexOf(tok) + 1;
     }, 0)
   );
 
@@ -37,10 +37,10 @@ function solve(input) {
 
     for (i in line) {
       const token = line[i];
-      if (openings.includes(token)) {
-        stack.push(closings[openings.indexOf(token)]);
+      if (OPENINGS.includes(token)) {
+        stack.push(CLOSINGS[OPENINGS.indexOf(token)]);
       }
-      if (closings.includes(token)) {
+      if (CLOSINGS.includes(token)) {
         if (token === stack.at(-1)) stack.pop();
         else {
           errors.push(token);
