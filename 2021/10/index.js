@@ -39,7 +39,8 @@ function solve(input) {
       const token = line[i];
       if (openings.includes(token)) {
         stack.push(closings[openings.indexOf(token)]);
-      } else {
+      }
+      if (closings.includes(token)) {
         if (token === stack.at(-1)) stack.pop();
         else {
           errors.push(token);
