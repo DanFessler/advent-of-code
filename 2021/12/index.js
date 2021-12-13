@@ -1,3 +1,5 @@
+const { performance } = require("perf_hooks");
+
 // parse the input
 function Parse(input) {
   // return input.split(/\r?\n/).map((line) => line.split("-"));
@@ -15,54 +17,58 @@ function Parse(input) {
 
 // Part 1
 function Part1(nodes) {
-  let results = explore(nodes, "start");
-
+  let results;
+  let t = performance.now();
+  results = traverse(nodes);
+  t = performance.now() - t;
+  console.log(t);
   return results.length;
-
-  function explore(nodes, from, path = [from], paths = [], visited = {}) {
-    if (from === "end") return paths.push(path);
-
-    if (from.toLowerCase() === from) {
-      visited[from] = true;
-    }
-
-    nodes[from].forEach((node) => {
-      if (!visited[node]) {
-        explore({ ...nodes }, node, [...path, node], paths, { ...visited });
-      }
-    });
-
-    return paths;
-  }
 }
 
 // Part 2
 function Part2(nodes) {
-  let results = explore(nodes, "start");
-
+  let results;
+  let t = performance.now();
+  results = traverse(nodes, "mj");
+  t = performance.now() - t;
+  console.log(t);
   return results.length;
 
-  function explore(
-    nodes,
-    from,
-    path = [from],
-    paths = [],
-    visited = { start: true, end: true }
-  ) {
-    if (from === "end") return paths.push(path);
+  // let results = [];
+  // // let { start, end, ...rest } = nodes;
+  // let keys = Object.keys(nodes).filter((node) => {
+  //   return node.toLowerCase() === node && node !== "start" && node !== "end";
+  // });
+  // for (key of keys) {
+  //   let newResults = traverse(nodes, key);
+  //   // push new results to the list only if they're unique
+  //   newResults.forEach((newResult) => {
+  //     if (!results.find((result) => result.join(",") === newResult.join(","))) {
+  //       results.push(newResult);
+  //     }
+  //   });
+  // }
+  // return results.length;
+}
 
-    if (from.toLowerCase() === from) {
-      visited[from] = visited[from] + 1 || 1;
+function traverse(
+  nodes,
+  exception = null,
+  from = "start",
+  path = [from],
+  paths = [],
+  visited = {}
+) {
+  if (from === "end") return paths.push(path);
+  if (from.toLowerCase() === from) visited[from] = visited[from] + 1 || 1;
+
+  nodes[from].forEach((node) => {
+    if (!visited[node] || visited[node] < (node === exception ? 2 : 1)) {
+      traverse(nodes, exception, node, [...path, node], paths, { ...visited });
     }
+  });
 
-    nodes[from].forEach((node) => {
-      if (!visited[node] || visited[node] < 2) {
-        explore({ ...nodes }, node, [...path, node], paths, { ...visited });
-      }
-    });
-
-    return paths;
-  }
+  return paths;
 }
 
 // if we're running in the browser, parse the input from the document
