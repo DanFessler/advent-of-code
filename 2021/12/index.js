@@ -1,4 +1,5 @@
 const { performance } = require("perf_hooks");
+const { isArray } = require("util");
 
 // parse the input
 function Parse(input) {
@@ -17,38 +18,32 @@ function Parse(input) {
 
 // Part 1
 function Part1(nodes) {
-  let results;
-  let t = performance.now();
-  results = traverse(nodes);
-  t = performance.now() - t;
-  console.log(t);
-  return results.length;
+  return traverse(nodes).length;
 }
 
 // Part 2
 function Part2(nodes) {
-  let results;
-  let t = performance.now();
-  results = traverse(nodes, "mj");
-  t = performance.now() - t;
-  console.log(t);
-  return results.length;
+  let results = [];
 
-  // let results = [];
-  // // let { start, end, ...rest } = nodes;
-  // let keys = Object.keys(nodes).filter((node) => {
-  //   return node.toLowerCase() === node && node !== "start" && node !== "end";
-  // });
-  // for (key of keys) {
-  //   let newResults = traverse(nodes, key);
-  //   // push new results to the list only if they're unique
-  //   newResults.forEach((newResult) => {
-  //     if (!results.find((result) => result.join(",") === newResult.join(","))) {
-  //       results.push(newResult);
-  //     }
-  //   });
-  // }
-  // return results.length;
+  let keys = Object.keys(nodes).filter((node) => {
+    return node.toLowerCase() === node && node !== "start" && node !== "end";
+  });
+
+  // this code takes quite a while to execute.
+  for (key of keys) {
+    let newResults = traverse(nodes, key);
+
+    // filter new results for unique paths
+    let resultStrings = results.map((result) => result.join(","));
+    let newResultStrings = newResults.map((result) => result.join(","));
+    newResults = newResults.filter((result, i) => {
+      return !resultStrings.find((string) => string === newResultStrings[i]);
+    });
+
+    results.push(...newResults);
+  }
+
+  return results.length;
 }
 
 function traverse(
