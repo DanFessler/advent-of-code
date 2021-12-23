@@ -26,7 +26,6 @@ function Part1([points, instructions]) {
 
 // Part 2
 function Part2([points, instructions]) {
-  console.log(points);
   let [width, height] = [0, 0];
 
   instructions.forEach((instruction, i) => {
