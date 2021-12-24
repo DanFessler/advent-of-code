@@ -12,54 +12,34 @@ function Parse(input) {
 }
 
 // Part 1
-function Part1([polymer, rules]) {
-  // create new polymer by applying rules on old polymer
-  for (let i = 0; i < 10; i++) {
-    let newPolymer = "";
-    for (let i = 0; i < polymer.length - 1; i++) {
-      let test = polymer.substr(i, 2);
-      newPolymer += test[0];
-      if (rules[test]) newPolymer += rules[test];
-    }
-    polymer = newPolymer + polymer.charAt(polymer.length - 1);
-  }
-
-  // add up each element as key/value pairs
-  let counts = [...polymer].reduce((acc, val) => {
-    if (!acc[val]) acc[val] = 1;
-    else acc[val]++;
-    return acc;
-  }, {});
-
-  // sort element keys by count
-  let keys = Object.keys(counts);
-  keys.sort((a, b) => counts[b] - counts[a]);
-
-  // return the most common element count minus the least common
-  return counts[keys.at(0)] - counts[keys.at(-1)];
+function Part1(input) {
+  return solve(input, 10);
 }
 
 // Part 2
-function Part2([template, rules]) {
+function Part2(input) {
+  return solve(input, 40);
+}
+
+function solve([template, rules], steps) {
   // get initial pair and element counts as key/value pairs
   let [pairs, elements] = [...template].reduce(
-    ([pairs, counts], char, i, arr) => {
-      if (arr[i + 1]) {
-        let pair = arr[i] + arr[i + 1];
-        pairs[pair] = pairs[pair] + 1 || 1;
-      }
-      counts[char] = counts[char] + 1 || 1;
-      return [pairs, counts];
+    ([pairs, elements], char, i) => {
+      let pair = template.substr(i, 2);
+
+      pairs[pair] = pairs[pair] + 1 || 1;
+      elements[char] = elements[char] + 1 || 1;
+
+      return [pairs, elements];
     },
     [{}, {}]
   );
 
   // On each step loop through pairs, and maintain pair and element counts
-  for (let steps = 0; steps < 40; steps++) {
+  for (let i = 0; i < steps; i++) {
     let newPairs = { ...pairs };
     for (let pair in pairs) {
-      let pairCount = pairs[pair];
-      let newChar = rules[pair];
+      let [pairCount, newChar] = [pairs[pair], rules[pair]];
 
       // if this pair has a rule, and the we have some number of that pair...
       if (newChar && pairCount) {
