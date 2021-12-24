@@ -23,31 +23,26 @@ function Part2(input) {
 
 function solve([template, rules], steps) {
   // get initial pair and element counts as key/value pairs
-  let [pairs, elements] = [...template].reduce(
-    ([pairs, elements], char, i) => {
-      let pair = template.substr(i, 2);
-
-      pairs[pair] = pairs[pair] + 1 || 1;
-      elements[char] = elements[char] + 1 || 1;
-
-      return [pairs, elements];
-    },
-    [{}, {}]
-  );
+  let [pairs, elements] = [{}, {}];
+  for (let i in template) {
+    let pair = template.substr(i, 2);
+    pairs[pair] = pairs[pair] + 1 || 1;
+    elements[pair[0]] = elements[pair[0]] + 1 || 1;
+  }
 
   // On each step loop through pairs, and maintain pair and element counts
   for (let i = 0; i < steps; i++) {
     let newPairs = { ...pairs };
 
     for (let pair in pairs) {
-      let [pairCount, newChar] = [pairs[pair], rules[pair]];
+      let [pairCount, newEl] = [pairs[pair], rules[pair]];
 
-      if (newChar) {
-        let [pairA, pairB] = [pair[0] + newChar, newChar + pair[1]];
-        elements[newChar] = elements[newChar] + pairCount || pairCount;
+      if (newEl) {
+        let [pairA, pairB] = [pair[0] + newEl, newEl + pair[1]];
+        newPairs[pair] -= pairCount;
         newPairs[pairA] = newPairs[pairA] + pairCount || pairCount;
         newPairs[pairB] = newPairs[pairB] + pairCount || pairCount;
-        newPairs[pair] -= pairCount;
+        elements[newEl] = elements[newEl] + pairCount || pairCount;
       }
     }
 
