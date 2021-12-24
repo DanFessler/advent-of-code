@@ -11,15 +11,8 @@ function Parse(input) {
   ];
 }
 
-// Part 1
-function Part1(input) {
-  return solve(input, 10);
-}
-
-// Part 2
-function Part2(input) {
-  return solve(input, 40);
-}
+const Part1 = (input) => solve(input, 10);
+const Part2 = (input) => solve(input, 40);
 
 function solve([template, rules], steps) {
   let [pairs, elements] = [{}, {}];
