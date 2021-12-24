@@ -22,8 +22,9 @@ function Part2(input) {
 }
 
 function solve([template, rules], steps) {
-  // get initial pair and element counts as key/value pairs
   let [pairs, elements] = [{}, {}];
+
+  // get initial pair and element counts as key/value pairs
   for (let i in template) {
     let pair = template.substr(i, 2);
     pairs[pair] = pairs[pair] + 1 || 1;
