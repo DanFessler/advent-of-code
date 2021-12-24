@@ -38,11 +38,11 @@ function solve([template, rules], steps) {
   // On each step loop through pairs, and maintain pair and element counts
   for (let i = 0; i < steps; i++) {
     let newPairs = { ...pairs };
+
     for (let pair in pairs) {
       let [pairCount, newChar] = [pairs[pair], rules[pair]];
 
-      // if this pair has a rule, and the we have some number of that pair...
-      if (newChar && pairCount) {
+      if (newChar) {
         let [pairA, pairB] = [pair[0] + newChar, newChar + pair[1]];
         elements[newChar] = elements[newChar] + pairCount || pairCount;
         newPairs[pairA] = newPairs[pairA] + pairCount || pairCount;
@@ -50,6 +50,7 @@ function solve([template, rules], steps) {
         newPairs[pair] -= pairCount;
       }
     }
+
     pairs = newPairs;
   }
 
