@@ -41,14 +41,17 @@ else puzzles.forEach((puzzle, i) => solve(i + 1));
 function solve(day) {
   try {
     let puzzle = puzzles[day - 1];
-    // let input = puzzle.Parse(puzzle.input);
-    console.log(
-      `day_${day}_1:`,
-      puzzle.Part1(puzzle.Parse(puzzle.input)),
-      `\nday_${day}_2:`,
-      puzzle.Part2(puzzle.Parse(puzzle.input))
-    );
+    let input = puzzle.Parse(puzzle.input);
+    let [part1, part2] = [run(puzzle.Part1, input), run(puzzle.Part2, input)];
+    console.log(`day_${day}_1:`, ...part1, `\nday_${day}_2:`, ...part2);
   } catch (err) {
     console.error("Invalid Puzzle: " + day, err);
   }
+}
+
+function run(fn, input) {
+  let t1 = performance.now();
+  let result = fn(input);
+  let t2 = performance.now();
+  return [result, Math.floor((t2 - t1) * 100) / 100 + "ms"];
 }
