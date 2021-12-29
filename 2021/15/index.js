@@ -13,7 +13,7 @@ function Part2(input) {
   let map = [];
   const size = input.length;
 
-  // build up larget map based on input
+  // build up larger map based on input
   for (let y = 0; y < size * 5; y++) {
     let row = [];
     for (let x = 0; x < size * 5; x++) {
