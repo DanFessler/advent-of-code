@@ -36,6 +36,7 @@ function search(map, [x1, y1], [x2, y2]) {
     let current = open.reduce((lowest, node) =>
       !lowest || node.cost < lowest.cost ? node : lowest
     );
+
     let [x, y] = current.pos;
 
     // if we reached the end, return the total cost
