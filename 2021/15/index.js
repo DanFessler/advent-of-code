@@ -44,10 +44,10 @@ function search(map, [x1, y1], [x2, y2]) {
     if (x == x2 && y == y2) return q.g;
 
     let neighbors = [
-      [x + 0, y + -1],
-      [x + 0, y + +1],
-      [x + -1, y + 0],
-      [x + +1, y + 0],
+      [x, y - 1],
+      [x, y + 1],
+      [x - 1, y],
+      [x + 1, y],
     ];
 
     neighbors.forEach(([x, y]) => {
