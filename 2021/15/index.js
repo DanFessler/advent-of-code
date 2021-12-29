@@ -36,31 +36,25 @@ function search(map, [x1, y1], [x2, y2]) {
     let current = open.reduce((lowest, node) =>
       !lowest || node.cost < lowest.cost ? node : lowest
     );
-
     let [x, y] = current.pos;
 
     // if we reached the end, return the total cost
     if (x == x2 && y == y2) return current.cost;
 
-    let neighbors = [
-      [x, y - 1],
-      [x, y + 1],
-      [x - 1, y],
-      [x + 1, y],
-    ];
+    // for each neighbor, if new cost is lower then
+    // add it to the open list for further searching
+    neighbors(x, y).forEach(([x, y]) => {
+      if (!map[y] || !map[y][x]) return;
 
-    neighbors.forEach(([x, y]) => {
-      if (map[y] && map[y][x]) {
-        let neighbor = {
-          pos: [x, y],
-          cost: current.cost + map[y][x],
-        };
+      let neighbor = {
+        pos: [x, y],
+        cost: current.cost + map[y][x],
+      };
 
-        i = y * map[0].length + x;
-        if (!costs[i] || neighbor.cost < costs[i]) {
-          costs[i] = neighbor.cost;
-          open.push(neighbor);
-        }
+      i = y * map[0].length + x;
+      if (!costs[i] || neighbor.cost < costs[i]) {
+        costs[i] = neighbor.cost;
+        open.push(neighbor);
       }
     });
 
@@ -69,9 +63,13 @@ function search(map, [x1, y1], [x2, y2]) {
   }
 }
 
-// manhattan distance heuristic
-function manhattan(x1, y1, x2, y2) {
-  return Math.abs(x2 - x1) + Math.abs(y2 - y1);
+function neighbors(x, y) {
+  return [
+    [x, y - 1],
+    [x, y + 1],
+    [x - 1, y],
+    [x + 1, y],
+  ];
 }
 
 // if we're running in the browser, parse the input from the document
