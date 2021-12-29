@@ -26,22 +26,21 @@ function Part2(input) {
   return search(map, [0, 0], [size * 5 - 1, size * 5 - 1]);
 }
 
-// A* search algorithm
+// Simplified A* search algorithm
 function search(map, [x1, y1], [x2, y2]) {
-  let open = [{ pos: [x1, y1], g: 0, f: 0 }];
-  let visited = {};
+  let open = [{ pos: [x1, y1], cost: 0 }];
+  let costs = {};
 
   while (open.length) {
     // find node with least cost
-    let q = open.reduce((lowest, node) => {
-      if (!lowest || node.f < lowest.f) return node;
-      return lowest;
-    }, 0);
+    let current = open.reduce((lowest, node) =>
+      !lowest || node.cost < lowest.cost ? node : lowest
+    );
 
-    let [x, y] = q.pos;
+    let [x, y] = current.pos;
 
     // if we reached the end, return the total cost
-    if (x == x2 && y == y2) return q.g;
+    if (x == x2 && y == y2) return current.cost;
 
     let neighbors = [
       [x, y - 1],
@@ -52,31 +51,27 @@ function search(map, [x1, y1], [x2, y2]) {
 
     neighbors.forEach(([x, y]) => {
       if (map[y] && map[y][x]) {
-        let d = map[y][x];
-
         let neighbor = {
           pos: [x, y],
-          g: q.g + d,
-          f: q.g + d + Math.abs(x2 - x1) + Math.abs(y2 - y1),
+          cost: current.cost + map[y][x],
         };
 
         i = y * map[0].length + x;
-        if (!visited[i] || neighbor.g < visited[i].g) {
-          visited[i] = neighbor;
-
-          let isOpen = open.find((node) => {
-            let [x2, y2] = node.pos;
-            return x == x2 && y == y2;
-          });
-
-          if (!isOpen) open.push(neighbor);
+        if (!costs[i] || neighbor.cost < costs[i]) {
+          costs[i] = neighbor.cost;
+          open.push(neighbor);
         }
       }
     });
 
-    // remove q from open list
-    open = open.filter((node) => node !== q);
+    // remove current from open list
+    open = open.filter((node) => node !== current);
   }
+}
+
+// manhattan distance heuristic
+function manhattan(x1, y1, x2, y2) {
+  return Math.abs(x2 - x1) + Math.abs(y2 - y1);
 }
 
 // if we're running in the browser, parse the input from the document
