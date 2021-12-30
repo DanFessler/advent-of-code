@@ -1,6 +1,3 @@
-const CONTINUE = "1";
-const BIT_LENGTH = "0";
-const SUB_PACKETS = "1";
 const TYPES = {
   0: "SUM",
   1: "MUL",
@@ -47,9 +44,9 @@ function Parse(input) {
     // if type is literal value
     if (type == "VAL") {
       let groups = [];
-      let prefix = CONTINUE;
-      while (prefix == CONTINUE) {
-        prefix = getBits();
+      let read = true;
+      while (read == true) {
+        read = getBits();
         groups.push(getBits(4));
       }
       value = parseInt(groups.join(""), 2);
@@ -59,14 +56,14 @@ function Parse(input) {
     else {
       value = [];
       switch (getBits()) {
-        case BIT_LENGTH:
+        case "0":
           let length = getDec(15);
           let currentBit = bitCount;
           while (bitCount < currentBit + length) {
             value.push(getPacket());
           }
           break;
-        case SUB_PACKETS:
+        case "1":
           let packetCount = getDec(11);
           for (let i = 0; i < packetCount; i++) {
             value.push(getPacket());
@@ -101,10 +98,10 @@ function Part2(input) {
     IGT: ([a, b]) => run(a) > run(b),
     ILT: ([a, b]) => run(a) < run(b),
     IEQ: ([a, b]) => run(a) == run(b),
-    SUM: (inputs) => inputs.reduce((acc, exp) => acc + run(exp), 0),
-    MUL: (inputs) => inputs.reduce((acc, exp) => acc * run(exp), 1),
     MIN: (inputs) => Math.min(...inputs.map((exp) => run(exp))),
     MAX: (inputs) => Math.max(...inputs.map((exp) => run(exp))),
+    SUM: (inputs) => inputs.reduce((acc, exp) => acc + run(exp), 0),
+    MUL: (inputs) => inputs.reduce((acc, exp) => acc * run(exp), 1),
   };
 
   const run = (expression) => ops[expression.type](expression.value);
