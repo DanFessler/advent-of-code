@@ -98,9 +98,9 @@ function Part1(input) {
 function Part2(input) {
   const ops = {
     VAL: (value) => value,
-    IGT: ([a, b]) => (run(a) > run(b) ? 1 : 0),
-    ILT: ([a, b]) => (run(a) < run(b) ? 1 : 0),
-    IEQ: ([a, b]) => (run(a) == run(b) ? 1 : 0),
+    IGT: ([a, b]) => run(a) > run(b),
+    ILT: ([a, b]) => run(a) < run(b),
+    IEQ: ([a, b]) => run(a) == run(b),
     SUM: (inputs) => inputs.reduce((acc, exp) => acc + run(exp), 0),
     MUL: (inputs) => inputs.reduce((acc, exp) => acc * run(exp), 1),
     MIN: (inputs) => Math.min(...inputs.map((exp) => run(exp))),
