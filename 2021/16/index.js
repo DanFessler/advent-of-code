@@ -24,9 +24,8 @@ function Parse(input) {
     let str = "";
     for (let i = 0; i < n; i++) {
       if (!bin) bin = hexToBin(input.substr(c++, 1));
-      let [char, ...rest] = bin.split("");
-      bin = rest.join("");
-      str += char;
+      str += bin[0];
+      bin = bin.substring(1);
     }
 
     return str;
@@ -84,8 +83,6 @@ function Parse(input) {
 
 // Part 1
 function Part1(input) {
-  return countVersion([input]);
-
   function countVersion(packets) {
     if (!packets.length) return 0;
     return packets.reduce(
@@ -93,6 +90,8 @@ function Part1(input) {
       0
     );
   }
+
+  return countVersion([input]);
 }
 
 // Part 2
