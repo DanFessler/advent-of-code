@@ -16,15 +16,13 @@ function Parse(input) {
   let bitCount = 0;
 
   function getBits(n = 1) {
-    bitCount += n;
-
     let str = "";
     for (let i = 0; i < n; i++) {
       if (!bin) bin = hexToBin(input.substr(c++, 1));
       str += bin[0];
       bin = bin.substring(1);
     }
-
+    bitCount += n;
     return str;
   }
 
