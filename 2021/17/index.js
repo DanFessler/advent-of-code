@@ -1,10 +1,6 @@
 // parse the input
 function Parse(input) {
-  let [match, x1, x2, y1, y2] = input.match(
-    /[a-z]=(-?\d*)..(-?\d*), [a-z]=(-?\d*)..(-?\d*)/
-  );
-  // return target rect
-  return [x1 * 1, y1 * 1, x2 - x1, y2 - y1];
+  return input.match(/-?\d+/g);
 }
 
 // Part 1
@@ -59,11 +55,11 @@ function Part2(targetRect) {
 }
 
 // Simulate shot
-function shoot(vx, vy, [tx, ty, tw, th]) {
+function shoot(vx, vy, [x1, x2, y1, y2]) {
   let [x, y] = [0, 0];
 
   let maxY = 0;
-  while (x <= tx + tw && y >= ty) {
+  while (x <= x2 && y >= y1) {
     x += vx;
     y += vy;
     if (y > maxY) maxY = y;
@@ -71,7 +67,7 @@ function shoot(vx, vy, [tx, ty, tw, th]) {
     vy -= 1;
 
     // if we've hit the target return the max height reached
-    if (x >= tx && x <= tx + tw && y >= ty && y <= ty + th) {
+    if (x >= x1 && x <= x2 && y >= y1 && y <= y2) {
       return maxY;
     }
   }
