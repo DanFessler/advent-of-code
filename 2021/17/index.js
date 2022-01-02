@@ -46,7 +46,7 @@ function Part2(targetRect) {
   // I'm not being smart here, and just gessing max iterations.
   let count = 0;
   for (let x = 0; x < 1000; x++) {
-    for (let y = vy; y > -1000; y--) {
+    for (let y = vy; y > -100; y--) {
       if (shoot(x, y, targetRect) !== false) count++;
     }
   }
