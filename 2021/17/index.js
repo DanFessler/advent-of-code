@@ -5,12 +5,7 @@ function Parse(input) {
 
 // Part 1
 function Part1(targetRect) {
-  let [vx, vy] = [0, 0];
-
-  // find start vx assuming vy=0
-  for (; vx < targetRect[0]; vx++) {
-    if (shoot(vx, vy, targetRect) !== false) break;
-  }
+  let [vx] = targetRect;
 
   // find highest height by ramping up vy while ramping down vx
   maxHeight = 0;
@@ -25,12 +20,7 @@ function Part1(targetRect) {
 
 // Part 2
 function Part2(targetRect) {
-  let [vx, vy] = [0, 0];
-
-  // find start vx assuming vy=0
-  for (; vx < targetRect[0]; vx++) {
-    if (shoot(vx, vy, targetRect) !== false) break;
-  }
+  let [vx, vy] = targetRect;
 
   // find highest vy by ramping up vy while ramping down vx
   for (let x = vx; x > 0; x--) {
@@ -43,10 +33,9 @@ function Part2(targetRect) {
 
   // count successful initial velocities starting from highest
   // and slowly ramping down vy while ramping up vx.
-  // I'm not being smart here, and just gessing max iterations.
   let count = 0;
   for (let x = 0; x < 1000; x++) {
-    for (let y = vy; y > -100; y--) {
+    for (let y = vy; y > -vy; y--) {
       if (shoot(x, y, targetRect) !== false) count++;
     }
   }
@@ -57,8 +46,9 @@ function Part2(targetRect) {
 // Simulate shot
 function shoot(vx, vy, [x1, x2, y1, y2]) {
   let [x, y] = [0, 0];
-
   let maxY = 0;
+
+  // continue simulation until we've passed the target
   while (x <= x2 && y >= y1) {
     x += vx;
     y += vy;
