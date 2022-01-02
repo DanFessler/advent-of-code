@@ -1,13 +1,4 @@
-const TYPES = {
-  0: "SUM",
-  1: "MUL",
-  2: "MIN",
-  3: "MAX",
-  4: "VAL",
-  5: "IGT",
-  6: "ILT",
-  7: "IEQ",
-};
+const TYPES = ["SUM", "MUL", "MIN", "MAX", "VAL", "IGT", "ILT", "IEQ"];
 
 // parse the input
 function Parse(input) {
@@ -102,7 +93,7 @@ function Part2(input) {
     MUL: (inputs) => inputs.reduce((acc, exp) => acc * run(exp), 1),
   };
 
-  const run = (expression) => ops[expression.type](expression.value);
+  const run = (exp) => ops[exp.type](exp.value);
 
   return run(input);
 }
