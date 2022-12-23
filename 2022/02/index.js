@@ -3,14 +3,15 @@ function Parse(input) {
   return input.split(/\n/).map((strat) => strat.split(" "));
 }
 
+const MOV_MAP = { A: "R", B: "P", C: "S", X: "R", Y: "P", Z: "S" };
+const WIN_MAP = { R: "P", P: "S", S: "R" };
+const LOS_MAP = { R: "S", P: "R", S: "P" };
+const PNT_MAP = { R: 1, P: 2, S: 3 };
+
 function Part1(input) {
   // translate strat to moves
   const moves = input.map((round) => {
-    return round.map((move) => {
-      if (move == "A" || move == "X") return "R";
-      if (move == "B" || move == "Y") return "P";
-      if (move == "C" || move == "Z") return "S";
-    });
+    return round.map((move) => MOV_MAP[move]);
   });
 
   return calculateScore(moves);
@@ -19,16 +20,15 @@ function Part1(input) {
 function Part2(input) {
   // translate strat to moves
   const moves = input.map(([theirMove, instruction]) => {
-    const move = { A: "R", B: "P", C: "S" }[theirMove];
-    const winningMove = { R: "P", P: "S", S: "R" }[move];
-    const losingMove = { R: "S", P: "R", S: "P" }[move];
+    const move = MOV_MAP[theirMove];
+
     switch (instruction) {
-      case "X": // lose
-        return [move, losingMove];
-      case "Y": // draw
+      case "X":
+        return [move, LOS_MAP[move]];
+      case "Z":
+        return [move, WIN_MAP[move]];
+      case "Y":
         return [move, move];
-      case "Z": // win
-        return [move, winningMove];
     }
   });
 
@@ -38,16 +38,9 @@ function Part2(input) {
 function calculateScore(turns) {
   let score = 0;
   turns.forEach(([theirMove, yourMove]) => {
-    // add constant amount of points for each shape you selected
-    const shapeMap = { R: 1, P: 2, S: 3 };
-    score += shapeMap[yourMove];
-
-    // if it's a draw, add 3 points
+    score += PNT_MAP[yourMove];
     if (theirMove === yourMove) score += 3;
-
-    // if we've won, add 6 points
-    const winMap = { R: "P", P: "S", S: "R" };
-    if (winMap[theirMove] == yourMove) score += 6;
+    if (WIN_MAP[theirMove] == yourMove) score += 6;
   });
   return score;
 }

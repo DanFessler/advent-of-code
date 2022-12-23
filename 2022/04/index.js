@@ -24,8 +24,7 @@ function Part1(input) {
 function Part2(input) {
   count = 0;
   input.forEach(([[a1, a2], [b1, b2]]) => {
-    let rangeB = b2 - b1;
-    if (b1 + rangeB >= a1 && b1 <= a2) count++;
+    if (b2 >= a1 && b1 <= a2) count++;
   });
   return count;
 }

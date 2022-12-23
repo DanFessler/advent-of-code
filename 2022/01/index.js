@@ -7,7 +7,8 @@ function Parse(input) {
 
 // return the highest calorie of all elves
 function Part1(input) {
-  return sortElfCalories(input)[0];
+  const [highest] = sortElfCalories(input);
+  return highest;
 }
 
 // return the sum of the three highest calorie-carrying elves
@@ -17,12 +18,9 @@ function Part2(input) {
 }
 
 function sortElfCalories(input) {
-  const totals = input.map((elf) => {
-    return elf.reduce((acc, curr) => {
-      return acc + curr;
-    }, 0);
-  });
-  return totals.sort((a, b) => b - a);
+  return input
+    .map((elf) => elf.reduce((acc, curr) => acc + curr))
+    .sort((a, b) => b - a);
 }
 
 // if we're running in the browser, parse the input from the document
