@@ -13,21 +13,9 @@ function Part2(input) {
 
 function findMarkerIndex(buffer, markerLength) {
   for (let i = markerLength; i < buffer.length; i++) {
-    if (isDistinct(buffer.substring(i - markerLength, i))) return i;
+    const marker = buffer.substring(i - markerLength, i);
+    if (new Set(marker).size === marker.length) return i;
   }
-}
-
-function isDistinct2(string) {
-  let str = "";
-  for (let i = 0; i < string.length; i++) {
-    if (str.includes(string[i])) return false;
-    str += string[i];
-  }
-  return true;
-}
-
-function isDistinct(string) {
-  return new Set(string).size === string.length;
 }
 
 // if we're running in the browser, parse the input from the document
