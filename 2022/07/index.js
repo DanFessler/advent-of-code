@@ -4,31 +4,27 @@ function Parse(input) {
 }
 
 function Part1(input) {
-  const tree = buildTree(input);
-
-  const dirList = [];
-  calcDirSize(tree["/"], dirList);
+  const root = buildTree(input);
+  const [size, list] = calcDirSize(root);
 
   // sum the directories of size 100,000 or lower
-  return dirList.reduce((acc, cur) => {
-    if (cur <= 100000) acc += cur;
+  return list.reduce((acc, cur) => {
+    if (cur <= 100_000) acc += cur;
     return acc;
   }, 0);
 }
 
 function Part2(input) {
-  const tree = buildTree(input);
+  const root = buildTree(input);
+  const [size, list] = calcDirSize(root);
 
-  const dirList = [];
-  const totalSize = calcDirSize(tree["/"], dirList);
-
-  // return the smallest dir size that would leave at lest 30000000 if deleted
-  return dirList
+  // return the smallest dir size that would leave at least 30,000,000 if deleted
+  return list
     .sort((a, b) => a - b)
-    .find((dir) => dir >= 30000000 - (70000000 - totalSize));
+    .find((dir) => dir + (70_000_000 - size) >= 30_000_000);
 }
 
-function calcDirSize(dir, dirList) {
+function calcDirSize(dir, dirList = []) {
   let size = 0;
 
   // iterate directory's children to calc total size
@@ -37,62 +33,68 @@ function calcDirSize(dir, dirList) {
     if (node.type === "file") {
       size += parseInt(node.size, 10);
     } else {
-      size += calcDirSize(node, dirList);
+      let [nodeSize] = calcDirSize(node, dirList);
+      size += nodeSize;
     }
   });
 
   // push calculated directory size to an array for easier access later
   dirList.push(size);
 
-  return size;
+  return [size, dirList];
 }
 
 function buildTree(input) {
-  const tree = {
-    "/": {
-      type: "dir",
-      children: {},
-    },
-  };
+  const root = createDir();
+  let trace = [root];
 
-  const dir = [tree["/"]];
+  for (line of input) {
+    const dir = trace[trace.length - 1];
 
-  for (let i = 1; i < input.length; i++) {
-    let [token, cmd, param] = input[i];
-    if (token == "$") {
-      const currentDir = dir[dir.length - 1];
-      switch (cmd) {
-        case "ls":
-          while (true) {
-            let next = input[i + 1];
-            if (!next || next[0] === "$") break;
+    if (line[0] == "$") {
+      processCmd();
+    } else {
+      processFile();
+    }
 
-            let [size, name] = next;
-            if (size === "dir") {
-              currentDir.children[name] = {
-                type: "dir",
-                children: {},
-              };
-            } else {
-              currentDir.children[name] = {
-                type: "file",
-                size: size,
-              };
-            }
+    function processCmd() {
+      const [, cmd, param] = line;
+      if (cmd == "cd") {
+        switch (param) {
+          case "/":
+            trace = [root];
+            break;
+          case "..":
+            trace.pop();
+            break;
+          default:
+            trace.push(dir.children[param]);
+        }
+      }
+    }
 
-            i = i + 1;
-          }
-          break;
-        case "cd":
-          if (param === "..") dir.pop();
-          else dir.push(currentDir.children[param]);
-          break;
+    function processFile() {
+      const [size, name] = line;
+      if (size === "dir") {
+        dir.children[name] = createDir();
+      } else {
+        dir.children[name] = createFile(size);
       }
     }
   }
 
-  return tree;
+  return root;
 }
+
+const createDir = () => ({
+  type: "dir",
+  children: {},
+});
+
+const createFile = (size) => ({
+  type: "file",
+  size: size,
+});
 
 // if we're running in the browser, parse the input from the document
 // otherwise export the functions
